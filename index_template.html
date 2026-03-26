@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register of Controllers & Processors — Information Commissioner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&family=Lato:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:           #ffffff;
+      --bg-2:         #f8f8f9;
+      --bg-3:         #f0f0f2;
+      --bg-4:         #e8e8eb;
+      --border:       rgba(0,0,0,0.08);
+      --border-hover: rgba(0,0,0,0.16);
+      --text:         #2a2a35;
+      --text-2:       #5a5a6a;
+      --text-3:       #9a9aaa;
+      --text-bright:  #111118;
+
+      /* Signature gradient: blue → pink → amber */
+      --grad:   linear-gradient(90deg, #3a7bd5 0%, #c850c0 50%, #e8a020 100%);
+      --grad-r: linear-gradient(90deg, #e8a020 0%, #c850c0 50%, #3a7bd5 100%);
+
+      --blue:   #3a7bd5;
+      --pink:   #c850c0;
+      --amber:  #e8a020;
+
+      --radius:    6px;
+      --radius-lg: 10px;
+      --shadow:    0 1px 6px rgba(0,0,40,.07);
+      --shadow-lg: 0 3px 16px rgba(0,0,40,.11);
+      --font-display: 'Raleway', sans-serif;
+      --font-body:    'Lato', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-2);
+      color: var(--text);
+      min-height: 100vh;
+      font-weight: 300;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 8px rgba(0,0,40,.06);
+    }
+    header::before {
+      content: '';
+      display: block;
+      height: 3px;
+      background: var(--grad);
+    }
+    .hdr {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hdr-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; flex-shrink: 0; }
+    .hdr-logo img { height: 44px; width: auto; }
+    .hdr-divider { width: 1px; height: 28px; background: var(--border); flex-shrink: 0; }
+    .hdr-section {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      color: var(--text-2);
+    }
+    .hdr-gap { flex: 1; }
+    .hdr-chip {
+      font-size: 11px;
+      color: var(--text-3);
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 11px;
+      white-space: nowrap;
+      font-family: var(--font-display);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+    @media (max-width: 800px) {
+      .page { grid-template-columns: 1fr; }
+      .sidebar { position: static !important; }
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: calc(64px + 1.5rem);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .panel {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .panel-hd {
+      padding: .55rem 1rem;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      background: var(--bg-2);
+      border-bottom: 1px solid var(--border);
+    }
+    .panel-bd { padding: .85rem 1rem; }
+
+    .srch { position: relative; }
+    .srch-ico {
+      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+      color: var(--text-3); pointer-events: none;
+    }
+    #searchInput {
+      width: 100%;
+      padding: .55rem .75rem .55rem 2.2rem;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 13.5px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    #searchInput:focus {
+      border-color: var(--blue);
+      background: var(--bg);
+      box-shadow: 0 0 0 3px rgba(58,123,213,0.1);
+    }
+    #searchInput::placeholder { color: var(--text-3); }
+
+    .flbl {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      color: var(--text-3);
+      margin: 12px 0 5px;
+      text-transform: uppercase;
+    }
+    .flbl:first-child { margin-top: 0; }
+
+    select {
+      width: 100%;
+      padding: .48rem .75rem;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 13px;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239a9aaa'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: border-color .2s;
+    }
+    select:focus { border-color: var(--blue); outline: none; }
+
+    .btn-clear {
+      width: 100%;
+      margin-top: 12px;
+      padding: .5rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-3);
+      font-family: var(--font-display);
+      font-size: 11.5px;
+      font-weight: 400;
+      letter-spacing: .04em;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .btn-clear:hover { border-color: var(--border-hover); color: var(--text-2); background: var(--bg-2); }
+
+    .stat {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 12.5px;
+    }
+    .stat:last-child { border-bottom: none; }
+    .stat-k { color: var(--text-2); font-weight: 300; }
+    .stat-v { font-weight: 500; color: var(--text-bright); font-family: var(--font-display); }
+
+    /* ── Results header ── */
+    .res-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: .9rem; gap: .5rem; flex-wrap: wrap;
+    }
+    .res-count { font-size: 13px; color: var(--text-2); font-weight: 300; }
+    .res-count strong { color: var(--text); font-weight: 400; }
+    .sort-row { display: flex; align-items: center; gap: 8px; }
+    .sort-row label {
+      font-size: 11px; color: var(--text-3);
+      font-family: var(--font-display); letter-spacing: .05em; text-transform: uppercase;
+    }
+    .sort-row select { width: auto; font-size: 12px; padding: .38rem .65rem; }
+
+    /* ── Cards ── */
+    .cards { display: flex; flex-direction: column; gap: .6rem; }
+
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.2rem;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--grad);
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .card:hover { border-color: rgba(58,123,213,0.3); box-shadow: var(--shadow); }
+    .card:hover::before { opacity: 1; }
+    .card.open { border-color: rgba(58,123,213,0.35); box-shadow: var(--shadow-lg); }
+    .card.open::before { opacity: 1; }
+
+    .card-row1 { display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; }
+    .card-name {
+      font-family: var(--font-display);
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--text-bright);
+      line-height: 1.35;
+      flex: 1;
+    }
+    .card-name mark {
+      background: rgba(232,160,32,0.18);
+      color: #b07010;
+      border-radius: 2px;
+      padding: 0 2px;
+    }
+    .card-reg {
+      font-size: 11px;
+      color: var(--text-3);
+      font-family: 'Courier New', monospace;
+      margin-top: 3px;
+      letter-spacing: .04em;
+    }
+    .badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 7px; }
+
+    .b {
+      display: inline-block; font-size: 10px; font-weight: 500;
+      border-radius: 3px; padding: 2px 8px;
+      font-family: var(--font-display); letter-spacing: .04em;
+    }
+    .b-active  { background: rgba(58,123,213,0.1);  color: #1a5bb8; border: 1px solid rgba(58,123,213,0.2); }
+    .b-lapsed  { background: rgba(232,160,32,0.1);  color: #a06010; border: 1px solid rgba(232,160,32,0.2); }
+    .b-cancel  { background: rgba(200,80,192,0.1);  color: #901878; border: 1px solid rgba(200,80,192,0.2); }
+    .b-company { background: rgba(0,0,0,0.04);      color: var(--text-2); border: 1px solid var(--border); }
+    .b-charity { background: rgba(200,80,192,0.07); color: #881870; border: 1px solid rgba(200,80,192,0.15); }
+    .b-sole    { background: rgba(232,160,32,0.08); color: #906015; border: 1px solid rgba(232,160,32,0.15); }
+    .b-govt    { background: rgba(58,123,213,0.07); color: #1a4a98; border: 1px solid rgba(58,123,213,0.15); }
+    .b-school  { background: rgba(40,160,80,0.08);  color: #186830; border: 1px solid rgba(40,160,80,0.15); }
+    .b-partner { background: rgba(0,0,0,0.04);      color: var(--text-3); border: 1px solid var(--border); }
+    .b-trust   { background: rgba(40,140,180,0.08); color: #155878; border: 1px solid rgba(40,140,180,0.15); }
+    .b-indiv   { background: rgba(140,60,200,0.08); color: #601890; border: 1px solid rgba(140,60,200,0.15); }
+    .b-elected { background: rgba(40,160,100,0.08); color: #156040; border: 1px solid rgba(40,160,100,0.15); }
+    .b-exempt  { background: rgba(20,160,140,0.08); color: #0a6058; border: 1px solid rgba(20,160,140,0.15); }
+    .b-other   { background: rgba(0,0,0,0.04);      color: var(--text-3); border: 1px solid var(--border); }
+
+    .expiry-tag {
+      font-size: 11px; text-align: right; white-space: nowrap;
+      flex-shrink: 0; color: var(--text-3); line-height: 1.5;
+      font-family: var(--font-display); font-weight: 400;
+    }
+    .expiry-tag strong { display: block; font-size: 12px; color: var(--text-2); }
+    .expiry-tag.warn { color: #c05020; }
+    .expiry-tag.warn strong { color: #c05020; }
+
+    .card-detail {
+      display: none; margin-top: 1rem;
+      padding-top: 1rem; border-top: 1px solid var(--border);
+    }
+    .card.open .card-detail { display: block; }
+
+    .det-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: .5rem 1.25rem;
+    }
+    .det-k {
+      font-size: 9.5px; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--text-3); margin-bottom: 3px;
+      font-family: var(--font-display); font-weight: 500;
+    }
+    .det-v { font-size: 13px; color: var(--text); word-break: break-word; font-weight: 300; }
+    .det-v.nil { color: var(--text-3); font-style: italic; }
+    .det-v.exp { color: #c05020; }
+
+    /* ── Pagination ── */
+    .pag {
+      display: flex; justify-content: center; align-items: center;
+      gap: 5px; margin-top: 1.5rem; flex-wrap: wrap;
+    }
+    .pg {
+      padding: .4rem .75rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      color: var(--text-2);
+      font-size: 12.5px; cursor: pointer; min-width: 35px; text-align: center;
+      transition: all .15s;
+      font-family: var(--font-display); font-weight: 400;
+    }
+    .pg:hover:not(:disabled) { border-color: rgba(58,123,213,0.4); color: var(--blue); background: rgba(58,123,213,0.05); }
+    .pg.on {
+      background: transparent;
+      border-color: transparent;
+      position: relative;
+      color: var(--text-bright);
+      font-weight: 600;
+    }
+    .pg.on::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 4px; right: 4px;
+      height: 2px;
+      background: var(--grad);
+      border-radius: 1px;
+    }
+    .pg:disabled { opacity: .3; cursor: default; }
+
+    /* ── Empty ── */
+    .empty { text-align: center; padding: 3.5rem 1.5rem; color: var(--text-3); }
+    .empty-ico { font-size: 32px; margin-bottom: .75rem; opacity: .5; }
+    .empty h3 { font-family: var(--font-display); font-weight: 400; font-size: 15px; color: var(--text-2); margin-bottom: .5rem; }
+    .empty p  { font-size: 13px; line-height: 1.7; font-weight: 300; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      margin-top: 2rem;
+    }
+    footer::after {
+      content: '';
+      display: block;
+      height: 3px;
+      background: var(--grad);
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: .75rem;
+    }
+    .footer-copy { font-size: 11.5px; color: var(--text-3); font-weight: 300; }
+    .footer-copy a { color: var(--text-3); text-decoration: none; border-bottom: 1px solid var(--border); transition: color .15s; }
+    .footer-copy a:hover { color: var(--text-2); }
+    .footer-logo img { height: 32px; opacity: .7; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hdr">
+    <a class="hdr-logo" href="#">
+      <img src="data:image/png;base64,%%LOGO%%" alt="Information Commissioner">
+    </a>
+    <div class="hdr-divider"></div>
+    <div class="hdr-section">Register of Controllers &amp; Processors</div>
+    <div class="hdr-gap"></div>
+    <div class="hdr-chip" id="chipDate"></div>
+  </div>
+</header>
+
+<div class="page">
+  <aside class="sidebar">
+
+    <div class="panel">
+      <div class="panel-hd">Search</div>
+      <div class="panel-bd">
+        <div class="srch">
+          <svg class="srch-ico" width="13" height="13" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M7 2a5 5 0 100 10A5 5 0 007 2zm0 2a3 3 0 110 6A3 3 0 017 4zm4.35 6.18l2.97 2.97a1 1 0 01-1.41 1.41l-2.97-2.97A6.97 6.97 0 019.1 11a5 5 0 001.25-2.82z"/>
+          </svg>
+          <input type="search" id="searchInput" placeholder="Name or registration number…" autocomplete="off">
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-hd">Filters</div>
+      <div class="panel-bd">
+        <label class="flbl" for="fStatus">Status</label>
+        <select id="fStatus">
+          <option value="">All statuses</option>
+          <option value="Active">Active</option>
+          <option value="Lapsed">Lapsed</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+
+        <label class="flbl" for="fType">Organisation type</label>
+        <select id="fType"><option value="">All types</option></select>
+
+        <label class="flbl" for="fExempt">Fee exempt</label>
+        <select id="fExempt">
+          <option value="">Any</option>
+          <option value="Yes">Exempt</option>
+          <option value="No">Not exempt</option>
+        </select>
+
+        <label class="flbl" for="fExpiry">Expiry</label>
+        <select id="fExpiry">
+          <option value="">Any</option>
+          <option value="expired">Already expired</option>
+          <option value="30">Within 30 days</option>
+          <option value="90">Within 90 days</option>
+          <option value="365">Within 1 year</option>
+        </select>
+
+        <button class="btn-clear" id="btnClear">Clear all filters</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-hd">Statistics</div>
+      <div class="panel-bd">
+        <div class="stat"><span class="stat-k">Total records</span><span class="stat-v" id="sTotal">—</span></div>
+        <div class="stat"><span class="stat-k">Active</span><span class="stat-v" id="sActive">—</span></div>
+        <div class="stat"><span class="stat-k">Lapsed</span><span class="stat-v" id="sLapsed">—</span></div>
+        <div class="stat"><span class="stat-k">Cancelled</span><span class="stat-v" id="sCancel">—</span></div>
+        <div class="stat"><span class="stat-k">Fee exempt</span><span class="stat-v" id="sExempt">—</span></div>
+      </div>
+    </div>
+
+  </aside>
+
+  <main>
+    <div class="res-hdr">
+      <div class="res-count" id="resCount"></div>
+      <div class="sort-row">
+        <label for="sortBy">Sort by</label>
+        <select id="sortBy">
+          <option value="name">Name A–Z</option>
+          <option value="name_z">Name Z–A</option>
+          <option value="reg">Registration no.</option>
+          <option value="exp_asc">Expiry soonest</option>
+          <option value="exp_desc">Expiry latest</option>
+          <option value="created_desc">Newest first</option>
+          <option value="created_asc">Oldest first</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="cards" id="cards"></div>
+    <div class="pag" id="pag"></div>
+  </main>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy">
+      Data sourced from the <a href="https://icoregister.powerappsportals.com/" target="_blank" rel="noopener">ICO Register of Controllers and Processors</a>.
+    </div>
+    <div class="footer-logo">
+      <img src="data:image/png;base64,%%LOGO%%" alt="Information Commissioner">
+    </div>
+  </div>
+</footer>
+
+<script>
+const PER_PAGE=25;
+const TODAY=new Date();TODAY.setHours(0,0,0,0);
+const all=%%DATA%%;
+let filtered=[],page=1,openId=null;
+
+function setup(){
+  document.getElementById('sTotal').textContent=all.length.toLocaleString();
+  document.getElementById('sActive').textContent=all.filter(r=>r.status==='Active').length.toLocaleString();
+  document.getElementById('sLapsed').textContent=all.filter(r=>r.status==='Lapsed').length.toLocaleString();
+  document.getElementById('sCancel').textContent=all.filter(r=>r.status==='Cancelled').length.toLocaleString();
+  document.getElementById('sExempt').textContent=all.filter(r=>r.exempt==='Yes').length.toLocaleString();
+  const dates=all.map(r=>r.modified).filter(Boolean).sort().reverse();
+  if(dates[0])document.getElementById('chipDate').textContent='Updated '+fmtDate(dates[0]);
+  const types=[...new Set(all.map(r=>r.orgType).filter(Boolean))].sort();
+  const sel=document.getElementById('fType');
+  types.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;sel.appendChild(o);});
+  run();
+}
+
+function run(){
+  const q=document.getElementById('searchInput').value.trim().toLowerCase();
+  const status=document.getElementById('fStatus').value;
+  const type=document.getElementById('fType').value;
+  const exempt=document.getElementById('fExempt').value;
+  const expiry=document.getElementById('fExpiry').value;
+  const sort=document.getElementById('sortBy').value;
+  filtered=all.filter(r=>{
+    if(status&&r.status!==status)return false;
+    if(type&&r.orgType!==type)return false;
+    if(exempt&&r.exempt!==exempt)return false;
+    if(expiry){
+      if(!r.expiry)return false;
+      const diff=Math.ceil((new Date(r.expiry+'T00:00:00')-TODAY)/86400000);
+      if(expiry==='expired'&&diff>=0)return false;
+      if(expiry!=='expired'&&(diff<0||diff>parseInt(expiry)))return false;
+    }
+    if(q&&![r.name,r.regNo].filter(Boolean).join(' ').toLowerCase().includes(q))return false;
+    return true;
+  });
+  filtered.sort((a,b)=>{
+    switch(sort){
+      case 'name':return(a.name||'').localeCompare(b.name||'');
+      case 'name_z':return(b.name||'').localeCompare(a.name||'');
+      case 'reg':return(a.regNo||'').localeCompare(b.regNo||'');
+      case 'exp_asc':return(a.expiry||'9999').localeCompare(b.expiry||'9999');
+      case 'exp_desc':return(b.expiry||'0000').localeCompare(a.expiry||'0000');
+      case 'created_desc':return(b.created||'').localeCompare(a.created||'');
+      case 'created_asc':return(a.created||'').localeCompare(b.created||'');
+      default:return 0;
+    }
+  });
+  page=1;render();
+}
+
+function render(){
+  const start=(page-1)*PER_PAGE;
+  const slice=filtered.slice(start,start+PER_PAGE);
+  const q=document.getElementById('searchInput').value.trim();
+  const end=Math.min(start+PER_PAGE,filtered.length);
+  document.getElementById('resCount').innerHTML=filtered.length===0
+    ?'No results'
+    :`Showing <strong>${start+1}&ndash;${end}</strong> of <strong>${filtered.length.toLocaleString()}</strong> registrar${filtered.length!==1?'s':''}`;
+  const container=document.getElementById('cards');
+  if(!filtered.length){
+    container.innerHTML='<div class="empty"><div class="empty-ico">&#128269;</div><h3>No results found</h3><p>Try adjusting your search terms or clearing some filters.</p></div>';
+    document.getElementById('pag').innerHTML='';
+    return;
+  }
+  container.innerHTML=slice.map(r=>buildCard(r,q)).join('');
+  container.querySelectorAll('.card').forEach(el=>el.addEventListener('click',()=>toggle(el.dataset.id)));
+  buildPag();
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+function hl(text,q){
+  if(!q||!text)return esc(text||'');
+  return esc(text).replace(new RegExp('('+escRe(esc(q))+')','gi'),'<mark>$1</mark>');
+}
+function fmtDate(d){
+  if(!d)return null;
+  try{return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}catch{return d}
+}
+function isExpired(d){return d?new Date(d+'T00:00:00')<TODAY:false}
+
+function statusBadge(s){
+  if(!s)return'';
+  const c={Active:'b-active',Lapsed:'b-lapsed',Cancelled:'b-cancel'};
+  return`<span class="b ${c[s]||'b-other'}">${esc(s)}</span>`;
+}
+function typeBadge(t){
+  if(!t)return'';
+  const c={'Company':'b-company','Charity or not for profit':'b-charity','Sole Trader':'b-sole','Individual':'b-indiv','MHK or Elected Representative':'b-elected','Government Department / Statutory Board / Office or Local Authority':'b-govt','School / College / University':'b-school','Partnership':'b-partner','Trusts and Investment Funds':'b-trust','Pension Scheme':'b-trust'};
+  const l={'Government Department / Statutory Board / Office or Local Authority':'Govt / Statutory','School / College / University':'School / University','MHK or Elected Representative':'Elected Rep','Trusts and Investment Funds':'Trust / Fund','Charity or not for profit':'Charity / NFP'};
+  return`<span class="b ${c[t]||'b-other'}">${esc(l[t]||t)}</span>`;
+}
+
+function buildCard(r,q){
+  const isOpen=String(r.id)===String(openId);
+  const exp=isExpired(r.expiry);
+  const exTag=r.expiry?`<div class="expiry-tag${exp?' warn':''}">${exp?'Expired':'Expires'}<strong>${fmtDate(r.expiry)}</strong></div>`:'';
+  return`<div class="card${isOpen?' open':''}" data-id="${r.id}">
+    <div class="card-row1">
+      <div style="flex:1">
+        <div class="card-name">${hl(r.name,q)}</div>
+        <div class="card-reg">${hl(r.regNo||'',q)}</div>
+        <div class="badges">${statusBadge(r.status)}${typeBadge(r.orgType)}${r.exempt==='Yes'?'<span class="b b-exempt">Fee exempt</span>':''}</div>
+      </div>${exTag}
+    </div>
+    <div class="card-detail">
+      <div class="det-grid">
+        ${di('Registration no.',r.regNo)}${di('Status',r.status)}${di('Organisation type',r.orgType)}
+        ${di('Fee exempt',r.exempt)}${di('Registration date',fmtDate(r.created))}
+        ${di('Expiry date',fmtDate(r.expiry),exp)}${di('Last entry',r.entry)}${di('Last modified',fmtDate(r.modified))}
+      </div>
+    </div>
+  </div>`;
+}
+
+function di(k,v,warn){
+  const c=v?(warn?'det-v exp':'det-v'):'det-v nil';
+  return`<div><div class="det-k">${esc(k)}</div><div class="${c}">${v?esc(v):'&mdash;'}</div></div>`;
+}
+
+function toggle(id){
+  openId=String(openId)===String(id)?null:id;render();
+  if(openId){const el=document.querySelector(`[data-id="${openId}"]`);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+}
+
+function buildPag(){
+  const total=Math.ceil(filtered.length/PER_PAGE);
+  if(total<=1){document.getElementById('pag').innerHTML='';return;}
+  const btns=[];
+  btns.push(`<button class="pg" onclick="go(${page-1})" ${page===1?'disabled':''}>&#8249;</button>`);
+  let prev=null;
+  for(let i=1;i<=total;i++){
+    if(i===1||i===total||(i>=page-2&&i<=page+2)){
+      if(prev&&i-prev>1)btns.push('<button class="pg" disabled>…</button>');
+      btns.push(`<button class="pg${i===page?' on':''}" onclick="go(${i})">${i}</button>`);
+      prev=i;
+    }
+  }
+  btns.push(`<button class="pg" onclick="go(${page+1})" ${page===total?'disabled':''}>&#8250;</button>`);
+  document.getElementById('pag').innerHTML=btns.join('');
+}
+
+function go(n){
+  const total=Math.ceil(filtered.length/PER_PAGE);
+  if(n<1||n>total)return;
+  page=n;render();window.scrollTo({top:0,behavior:'smooth'});
+}
+
+let debounce;
+document.getElementById('searchInput').addEventListener('input',()=>{clearTimeout(debounce);debounce=setTimeout(run,200);});
+['fStatus','fType','fExempt','fExpiry','sortBy'].forEach(id=>document.getElementById(id).addEventListener('change',run));
+document.getElementById('btnClear').addEventListener('click',()=>{
+  document.getElementById('searchInput').value='';
+  ['fStatus','fType','fExempt','fExpiry'].forEach(id=>document.getElementById(id).value='');
+  run();
+});
+
+setup();
+</script>
+</body>
+</html>
