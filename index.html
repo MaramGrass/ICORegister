@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICO Register – Isle of Man</title>
+  <style>
+    :root {
+      --ink:        #1c1c2e;
+      --ink-2:      #4a4a6a;
+      --ink-3:      #9090b0;
+      --surface:    #ffffff;
+      --surface-2:  #f4f4f8;
+      --surface-3:  #eaeaf0;
+      --border:     #e0e0ec;
+      --accent:     #1a56db;
+      --accent-bg:  #ebf0fd;
+      --radius:     7px;
+      --radius-lg:  11px;
+      --shadow:     0 1px 8px rgba(0,0,60,.08);
+      --shadow-lg:  0 3px 20px rgba(0,0,60,.12);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink:       #e4e4f4;
+        --ink-2:     #a0a0c8;
+        --ink-3:     #606080;
+        --surface:   #13131f;
+        --surface-2: #1c1c2c;
+        --surface-3: #252535;
+        --border:    #303048;
+        --accent:    #5b8ff9;
+        --accent-bg: #182040;
+        --shadow:    0 1px 8px rgba(0,0,0,.3);
+        --shadow-lg: 0 3px 20px rgba(0,0,0,.4);
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--surface-2); color: var(--ink); min-height: 100vh; }
+
+    /* Header */
+    header { background: var(--surface); border-bottom: 1px solid var(--border); }
+    .hdr { max-width: 1180px; margin: 0 auto; padding: 0 1.25rem; height: 58px; display: flex; align-items: center; gap: 12px; }
+    .hdr-logo { display: flex; align-items: center; gap: 9px; text-decoration: none; }
+    .hdr-mark { width: 34px; height: 34px; background: var(--accent); border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .hdr-mark svg { width: 18px; height: 18px; fill: white; }
+    .hdr-title { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.2; }
+    .hdr-sub   { font-size: 11px; color: var(--ink-3); font-weight: 400; }
+    .hdr-gap   { flex: 1; }
+    .hdr-chip  { font-size: 11px; color: var(--ink-3); background: var(--surface-3); border: 1px solid var(--border); border-radius: 20px; padding: 3px 10px; white-space: nowrap; }
+
+    /* Layout */
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 1.25rem; display: grid; grid-template-columns: 250px 1fr; gap: 1.1rem; align-items: start; }
+    @media (max-width: 780px) { .wrap { grid-template-columns: 1fr; } .sidebar { position: static !important; } }
+
+    /* Sidebar */
+    .sidebar { position: sticky; top: 1.25rem; display: flex; flex-direction: column; gap: .9rem; }
+    .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .panel-hd { padding: .55rem 1rem; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); background: var(--surface-2); border-bottom: 1px solid var(--border); }
+    .panel-bd { padding: .8rem 1rem; }
+
+    /* Search */
+    .srch { position: relative; }
+    .srch-ico { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--ink-3); pointer-events: none; }
+    #searchInput { width: 100%; padding: .5rem .7rem .5rem 2.1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-2); color: var(--ink); font-size: 13.5px; outline: none; transition: border-color .15s; }
+    #searchInput:focus { border-color: var(--accent); background: var(--surface); }
+    #searchInput::placeholder { color: var(--ink-3); }
+
+    /* Filters */
+    .flbl { display: block; font-size: 11.5px; color: var(--ink-2); margin: 10px 0 4px; }
+    .flbl:first-child { margin-top: 0; }
+    select { width: 100%; padding: .46rem .7rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-2); color: var(--ink); font-size: 12.5px; cursor: pointer; outline: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239090b0'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 9px center; }
+    select:focus { border-color: var(--accent); }
+    .btn-clear { width: 100%; margin-top: 11px; padding: .46rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius); color: var(--ink-2); font-size: 12.5px; cursor: pointer; transition: all .13s; }
+    .btn-clear:hover { background: var(--surface-3); }
+
+    /* Stats */
+    .stat { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+    .stat:last-child { border-bottom: none; }
+    .stat-k { color: var(--ink-2); }
+    .stat-v { font-weight: 600; }
+
+    /* Results header */
+    .res-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: .8rem; gap: .5rem; flex-wrap: wrap; }
+    .res-count { font-size: 13px; color: var(--ink-2); }
+    .res-count strong { color: var(--ink); }
+    .sort-row { display: flex; align-items: center; gap: 7px; }
+    .sort-row label { font-size: 11.5px; color: var(--ink-3); }
+    .sort-row select { width: auto; font-size: 12px; padding: .36rem .65rem; }
+
+    /* Cards */
+    .cards { display: flex; flex-direction: column; gap: .65rem; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: .9rem 1.1rem; cursor: pointer; transition: box-shadow .15s, border-color .15s; }
+    .card:hover { box-shadow: var(--shadow); border-color: var(--accent); }
+    .card.open { box-shadow: var(--shadow-lg); border-color: var(--accent); }
+
+    .card-row1 { display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; }
+    .card-name { font-size: 14.5px; font-weight: 600; color: var(--ink); line-height: 1.3; flex: 1; }
+    .card-name mark { background: #fff0a0; color: inherit; border-radius: 2px; padding: 0 1px; }
+    @media (prefers-color-scheme: dark) { .card-name mark { background: #5a4800; } }
+    .card-reg  { font-size: 11.5px; color: var(--ink-3); font-family: 'Courier New', monospace; margin-top: 3px; }
+    .badges    { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+
+    /* Badges */
+    .b { display: inline-block; font-size: 10.5px; font-weight: 600; border-radius: 20px; padding: 2px 8px; }
+    .b-active   { background: #d4f0e0; color: #005c2b; }
+    .b-lapsed   { background: #fff0cc; color: #7a4e00; }
+    .b-cancel   { background: #fde0e0; color: #8a1010; }
+    .b-company  { background: #ddeeff; color: #003d85; }
+    .b-charity  { background: #e8d8ff; color: #450085; }
+    .b-sole     { background: #fff3e0; color: #7a3a00; }
+    .b-govt     { background: #e0f5e8; color: #00502a; }
+    .b-school   { background: #fff0f5; color: #7a003a; }
+    .b-partner  { background: #f0f0f0; color: #404040; }
+    .b-trust    { background: #e0f0f8; color: #003a5c; }
+    .b-indiv    { background: #f5e8ff; color: #500070; }
+    .b-elected  { background: #e8ffe0; color: #1a5200; }
+    .b-exempt   { background: #e0f5f0; color: #005045; }
+    .b-other    { background: var(--surface-3); color: var(--ink-2); }
+
+    /* Expanded detail */
+    .card-detail { display: none; margin-top: .9rem; padding-top: .9rem; border-top: 1px solid var(--border); }
+    .card.open .card-detail { display: block; }
+    .det-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); gap: .45rem 1.25rem; }
+    .det-k { font-size: 10.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); margin-bottom: 2px; }
+    .det-v { font-size: 13px; color: var(--ink); word-break: break-word; }
+    .det-v.nil { color: var(--ink-3); font-style: italic; }
+    .det-v.exp { color: #c0392b; }
+
+    /* Pagination */
+    .pag { display: flex; justify-content: center; align-items: center; gap: 5px; margin-top: 1.25rem; flex-wrap: wrap; }
+    .pg { padding: .38rem .7rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--ink-2); font-size: 12.5px; cursor: pointer; min-width: 34px; text-align: center; transition: all .12s; }
+    .pg:hover:not(:disabled) { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
+    .pg.on { background: var(--accent); border-color: var(--accent); color: white; font-weight: 600; }
+    .pg:disabled { opacity: .3; cursor: default; }
+
+    /* Empty / Loading */
+    .empty { text-align: center; padding: 3rem 1.5rem; color: var(--ink-3); }
+    .empty h3 { font-size: 15px; color: var(--ink-2); margin-bottom: .5rem; margin-top: .75rem; }
+    .empty p  { font-size: 13px; }
+    .spin-wrap { text-align: center; padding: 3rem; color: var(--ink-3); }
+    .spinner { width: 26px; height: 26px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: sp .7s linear infinite; margin: 0 auto 1rem; }
+    @keyframes sp { to { transform: rotate(360deg); } }
+
+    footer { text-align: center; padding: 1.25rem; font-size: 11.5px; color: var(--ink-3); border-top: 1px solid var(--border); background: var(--surface); margin-top: 1.5rem; }
+    footer a { color: var(--ink-3); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hdr">
+    <a class="hdr-logo" href="#">
+      <div class="hdr-mark">
+        <svg viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5c1.1 0 3 .56 3 1.67V13H7v-1.33C7 10.56 8.9 10 10 10z"/></svg>
+      </div>
+      <div>
+        <div class="hdr-title">ICO Register</div>
+        <div class="hdr-sub">Isle of Man — Controllers &amp; Processors</div>
+      </div>
+    </a>
+    <div class="hdr-gap"></div>
+    <div class="hdr-chip" id="chipDate">Loading…</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <aside class="sidebar">
+
+    <div class="panel">
+      <div class="panel-hd">Search</div>
+      <div class="panel-bd">
+        <div class="srch">
+          <svg class="srch-ico" width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M7 2a5 5 0 100 10A5 5 0 007 2zm0 2a3 3 0 110 6A3 3 0 017 4zm4.65 5.24l3.2 3.2a1 1 0 01-1.42 1.42l-3.2-3.2c-.44-.44-.5-1.12-.13-1.62a5.07 5.07 0 001.55-3.81z"/></svg>
+          <input type="search" id="searchInput" placeholder="Name or registration no…" autocomplete="off">
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-hd">Filters</div>
+      <div class="panel-bd">
+        <label class="flbl" for="fStatus">Status</label>
+        <select id="fStatus">
+          <option value="">All statuses</option>
+          <option value="Active">Active</option>
+          <option value="Lapsed">Lapsed</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+
+        <label class="flbl" for="fType">Organisation type</label>
+        <select id="fType">
+          <option value="">All types</option>
+        </select>
+
+        <label class="flbl" for="fExempt">Fee exempt</label>
+        <select id="fExempt">
+          <option value="">Any</option>
+          <option value="Yes">Exempt</option>
+          <option value="No">Not exempt</option>
+        </select>
+
+        <label class="flbl" for="fExpiry">Expiry</label>
+        <select id="fExpiry">
+          <option value="">Any</option>
+          <option value="expired">Already expired</option>
+          <option value="30">Expires within 30 days</option>
+          <option value="90">Expires within 90 days</option>
+          <option value="365">Expires within 1 year</option>
+        </select>
+
+        <button class="btn-clear" id="btnClear">Clear all filters</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-hd">Statistics</div>
+      <div class="panel-bd">
+        <div class="stat"><span class="stat-k">Total</span><span class="stat-v" id="sTotal">—</span></div>
+        <div class="stat"><span class="stat-k">Active</span><span class="stat-v" id="sActive">—</span></div>
+        <div class="stat"><span class="stat-k">Lapsed</span><span class="stat-v" id="sLapsed">—</span></div>
+        <div class="stat"><span class="stat-k">Cancelled</span><span class="stat-v" id="sCancel">—</span></div>
+        <div class="stat"><span class="stat-k">Fee exempt</span><span class="stat-v" id="sExempt">—</span></div>
+      </div>
+    </div>
+
+  </aside>
+
+  <main>
+    <div class="res-hdr">
+      <div class="res-count" id="resCount"></div>
+      <div class="sort-row">
+        <label for="sortBy">Sort</label>
+        <select id="sortBy">
+          <option value="name">Name A–Z</option>
+          <option value="name_z">Name Z–A</option>
+          <option value="reg">Registration no.</option>
+          <option value="exp_asc">Expiry soonest</option>
+          <option value="exp_desc">Expiry latest</option>
+          <option value="created_desc">Newest</option>
+          <option value="created_asc">Oldest</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="cards" id="cards">
+      <div class="spin-wrap"><div class="spinner"></div>Loading register…</div>
+    </div>
+
+    <div class="pag" id="pag"></div>
+  </main>
+</div>
+
+<footer>
+  Data exported from the <a href="https://icoregister.powerappsportals.com/" target="_blank" rel="noopener">ICO Register of Controllers and Processors</a>.
+  Updated: <span id="footerDate"></span>
+</footer>
+
+<script>
+const PER_PAGE = 25;
+let all = [], filtered = [], page = 1, openId = null;
+const TODAY = new Date(); TODAY.setHours(0,0,0,0);
+
+async function boot() {
+  try {
+    const r = await fetch('registrars.json');
+    if (!r.ok) throw new Error();
+    all = await r.json();
+    setup();
+  } catch {
+    document.getElementById('cards').innerHTML =
+      '<div class="empty"><div style="font-size:36px">⚠</div><h3>Could not load registrars.json</h3><p>Make sure the file is in the same directory as this page.</p></div>';
+  }
+}
+
+function setup() {
+  // Stats
+  document.getElementById('sTotal').textContent   = all.length.toLocaleString();
+  document.getElementById('sActive').textContent  = all.filter(r=>r.status==='Active').length.toLocaleString();
+  document.getElementById('sLapsed').textContent  = all.filter(r=>r.status==='Lapsed').length.toLocaleString();
+  document.getElementById('sCancel').textContent  = all.filter(r=>r.status==='Cancelled').length.toLocaleString();
+  document.getElementById('sExempt').textContent  = all.filter(r=>r.fee_exempt==='Yes').length.toLocaleString();
+
+  // Date chip
+  const dates = all.map(r=>r.modified_on).filter(Boolean).sort().reverse();
+  const latest = dates[0] ? fmtDate(dates[0]) : '—';
+  document.getElementById('chipDate').textContent  = 'Updated ' + latest;
+  document.getElementById('footerDate').textContent = latest;
+
+  // Org type filter
+  const types = [...new Set(all.map(r=>r.organisation_type).filter(Boolean))].sort();
+  const sel = document.getElementById('fType');
+  types.forEach(t => { const o = document.createElement('option'); o.value=t; o.textContent=t; sel.appendChild(o); });
+
+  run();
+}
+
+function run() {
+  const q      = document.getElementById('searchInput').value.trim().toLowerCase();
+  const status = document.getElementById('fStatus').value;
+  const type   = document.getElementById('fType').value;
+  const exempt = document.getElementById('fExempt').value;
+  const expiry = document.getElementById('fExpiry').value;
+  const sort   = document.getElementById('sortBy').value;
+
+  filtered = all.filter(r => {
+    if (status && r.status !== status) return false;
+    if (type   && r.organisation_type !== type) return false;
+    if (exempt && r.fee_exempt !== exempt) return false;
+    if (expiry && r.expiry_date) {
+      const d = new Date(r.expiry_date);
+      const diff = Math.ceil((d - TODAY) / 86400000);
+      if (expiry === 'expired' && diff >= 0) return false;
+      if (expiry !== 'expired' && (diff < 0 || diff > parseInt(expiry))) return false;
+    } else if (expiry && !r.expiry_date) return false;
+    if (q) {
+      const hay = [r.name, r.registration_no].join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  filtered.sort((a,b) => {
+    switch(sort) {
+      case 'name':         return (a.name||'').localeCompare(b.name||'');
+      case 'name_z':       return (b.name||'').localeCompare(a.name||'');
+      case 'reg':          return (a.registration_no||'').localeCompare(b.registration_no||'');
+      case 'exp_asc':      return (a.expiry_date||'9').localeCompare(b.expiry_date||'9');
+      case 'exp_desc':     return (b.expiry_date||'0').localeCompare(a.expiry_date||'0');
+      case 'created_desc': return (b.created_on||'').localeCompare(a.created_on||'');
+      case 'created_asc':  return (a.created_on||'').localeCompare(b.created_on||'');
+      default: return 0;
+    }
+  });
+
+  page = 1;
+  render();
+}
+
+function render() {
+  const start = (page-1)*PER_PAGE;
+  const slice = filtered.slice(start, start+PER_PAGE);
+  const q = document.getElementById('searchInput').value.trim();
+
+  const end = Math.min(start+PER_PAGE, filtered.length);
+  document.getElementById('resCount').innerHTML =
+    filtered.length === 0
+      ? 'No results'
+      : `Showing <strong>${start+1}–${end}</strong> of <strong>${filtered.length.toLocaleString()}</strong> registrar${filtered.length!==1?'s':''}`;
+
+  const container = document.getElementById('cards');
+  if (!filtered.length) {
+    container.innerHTML = '<div class="empty"><div style="font-size:36px">🔍</div><h3>No results found</h3><p>Try adjusting your search or filters.</p></div>';
+    document.getElementById('pag').innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = slice.map(r => card(r, q)).join('');
+  container.querySelectorAll('.card').forEach(el => el.addEventListener('click', () => toggle(el.dataset.id)));
+  buildPag();
+}
+
+function esc(s){ return s==null?'':String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+function hl(text, q) {
+  if (!q || !text) return esc(text||'');
+  return esc(text).replace(new RegExp(`(${escRe(esc(q))})`, 'gi'), '<mark>$1</mark>');
+}
+
+function fmtDate(d) {
+  if (!d) return null;
+  try { return new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); } catch { return d; }
+}
+
+function isExpired(d) {
+  if (!d) return false;
+  return new Date(d) < TODAY;
+}
+
+function statusBadge(s) {
+  if (!s) return '';
+  const m = {'Active':'b-active','Lapsed':'b-lapsed','Cancelled':'b-cancel'};
+  return `<span class="b ${m[s]||'b-other'}">${esc(s)}</span>`;
+}
+
+function typeBadge(t) {
+  if (!t) return '';
+  const map = {
+    'Company':'b-company',
+    'Charity or not for profit':'b-charity',
+    'Sole Trader':'b-sole',
+    'Individual':'b-indiv',
+    'MHK or Elected Representative':'b-elected',
+    'Government Department / Statutory Board / Office or Local Authority':'b-govt',
+    'School / College / University':'b-school',
+    'Partnership':'b-partner',
+    'Trusts and Investment Funds':'b-trust',
+    'Pension Scheme':'b-trust',
+  };
+  const label = t === 'Government Department / Statutory Board / Office or Local Authority' ? 'Govt / Statutory' :
+                t === 'School / College / University' ? 'School / University' :
+                t === 'MHK or Elected Representative' ? 'Elected Rep' :
+                t === 'Trusts and Investment Funds' ? 'Trust / Fund' :
+                t === 'Charity or not for profit' ? 'Charity / NFP' : t;
+  return `<span class="b ${map[t]||'b-other'}">${esc(label)}</span>`;
+}
+
+function card(r, q) {
+  const isOpen = String(r.id) === String(openId);
+  const exp = isExpired(r.expiry_date);
+  return `<div class="card${isOpen?' open':''}" data-id="${r.id}">
+    <div class="card-row1">
+      <div>
+        <div class="card-name">${hl(r.name||'Unknown', q)}</div>
+        <div class="card-reg">${hl(r.registration_no||'', q)}</div>
+        <div class="badges">
+          ${statusBadge(r.status)}
+          ${typeBadge(r.organisation_type)}
+          ${r.fee_exempt==='Yes' ? '<span class="b b-exempt">Fee exempt</span>' : ''}
+        </div>
+      </div>
+      ${r.expiry_date ? `<div style="font-size:11.5px;color:${exp?'#c0392b':'var(--ink-3)'};text-align:right;white-space:nowrap;flex-shrink:0">${exp?'Expired':'Expires'}<br><strong>${fmtDate(r.expiry_date)}</strong></div>` : ''}
+    </div>
+    <div class="card-detail">
+      <div class="det-grid">
+        ${di('Registration no.', r.registration_no)}
+        ${di('Status', r.status)}
+        ${di('Organisation type', r.organisation_type)}
+        ${di('Fee exempt', r.fee_exempt)}
+        ${di('Registration date', fmtDate(r.created_on))}
+        ${di('Expiry date', fmtDate(r.expiry_date), exp)}
+        ${di('Last entry', r.last_entry)}
+        ${di('Last modified', fmtDate(r.modified_on))}
+      </div>
+    </div>
+  </div>`;
+}
+
+function di(k, v, warn) {
+  const cls = v ? (warn ? 'det-v exp' : 'det-v') : 'det-v nil';
+  return `<div><div class="det-k">${esc(k)}</div><div class="${cls}">${v ? esc(v) : '—'}</div></div>`;
+}
+
+function toggle(id) {
+  openId = String(openId) === String(id) ? null : id;
+  render();
+  if (openId) {
+    const el = document.querySelector(`[data-id="${openId}"]`);
+    if (el) el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+}
+
+function buildPag() {
+  const total = Math.ceil(filtered.length / PER_PAGE);
+  if (total <= 1) { document.getElementById('pag').innerHTML=''; return; }
+  const btns = [];
+  btns.push(`<button class="pg" onclick="go(${page-1})" ${page===1?'disabled':''}>‹</button>`);
+  let prev = null;
+  for (let i=1; i<=total; i++) {
+    if (i===1||i===total||(i>=page-2&&i<=page+2)) {
+      if (prev && i-prev>1) btns.push(`<button class="pg" disabled>…</button>`);
+      btns.push(`<button class="pg${i===page?' on':''}" onclick="go(${i})">${i}</button>`);
+      prev=i;
+    }
+  }
+  btns.push(`<button class="pg" onclick="go(${page+1})" ${page===total?'disabled':''}>›</button>`);
+  document.getElementById('pag').innerHTML = btns.join('');
+}
+
+function go(n) {
+  const total = Math.ceil(filtered.length / PER_PAGE);
+  if (n<1||n>total) return;
+  page=n; render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+let debounce;
+['searchInput'].forEach(id => document.getElementById(id).addEventListener('input', ()=>{ clearTimeout(debounce); debounce=setTimeout(run,200); }));
+['fStatus','fType','fExempt','fExpiry','sortBy'].forEach(id => document.getElementById(id).addEventListener('change', run));
+document.getElementById('btnClear').addEventListener('click', () => {
+  ['searchInput'].forEach(id => document.getElementById(id).value='');
+  ['fStatus','fType','fExempt','fExpiry'].forEach(id => document.getElementById(id).value='');
+  run();
+});
+
+boot();
+</script>
+</body>
+</html>
